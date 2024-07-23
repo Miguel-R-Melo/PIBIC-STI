@@ -1,0 +1,39 @@
+*{
+	margin: 0;
+	padding: 0;
+    font-family: sans-serif;
+}
+
+nav{
+	height: 2em;
+	max-width: 300em;
+	background: #4100FA;
+	display: flex;
+	align-items: center;
+	justify-content: space-evenly;
+}
+
+body{
+	background: black;
+}
+
+span{
+    color: white;
+}
+
+img{
+    width: 1.1em;
+    height: 1.1em;
+}
+
+a{
+	text-decoration: none;
+}
+
+.main{
+	width: 44em;
+	height: 30em;
+	background: white;
+	margin: 1em auto;
+	border-radius: 1em;
+}

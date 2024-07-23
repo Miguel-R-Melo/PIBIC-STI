@@ -1,0 +1,1414 @@
+<!--
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exemplo de Local Storage</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 8px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Exemplo de Local Storage</h2>
+        <input type="text" id="input-data" placeholder="Digite algo...">
+        <br><br>
+        <button id="save-btn">Salvar Dados</button>
+        <button id="retrieve-btn">Recuperar Dados</button>
+        <br><br>
+        <p id="display-data"></p>
+    </div>
+
+    <script>
+        // Selecionando elementos do DOM
+const inputField = document.getElementById('input-data');
+const saveButton = document.getElementById('save-btn');
+const retrieveButton = document.getElementById('retrieve-btn');
+const displayData = document.getElementById('display-data');
+
+// Evento para salvar dados no localStorage
+saveButton.addEventListener('click', function() {
+    const data = inputField.value.trim();
+    if (data !== '') {
+        localStorage.setItem('meusDados', data);
+        inputField.value = '';
+        displayData.textContent = 'Dados salvos no localStorage.';
+    } else {
+        displayData.textContent = 'Por favor, digite algo para salvar.';
+    }
+});
+
+// Evento para recuperar dados do localStorage
+retrieveButton.addEventListener('click', function() {
+    const savedData = localStorage.getItem('meusDados');
+    if (savedData) {
+        displayData.textContent = `Dados recuperados do localStorage: ${savedData}`;
+    } else {
+        displayData.textContent = 'Nenhum dado encontrado no localStorage.';
+    }
+});
+
+    </script>
+</body>
+</html>-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Armazenamento Local de Dados</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+
+        input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 8px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 8px 16px;
+            margin: 0 5px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #task-list {
+            margin-top: 20px;
+            text-align: left;
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        .task {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Armazenamento Local de Dados</h2>
+        <input type="text" id="task-input" placeholder="Digite uma tarefa...">
+        <button id="add-task-btn">Adicionar Tarefa</button>
+        <div id="task-list"></div>
+        <button id="clear-tasks-btn">Limpar Tarefas</button>
+    </div>
+
+    <script>
+        // Selecionando elementos do DOM
+const taskInput = document.getElementById('task-input');
+const addTaskButton = document.getElementById('add-task-btn');
+const taskList = document.getElementById('task-list');
+const clearTasksButton = document.getElementById('clear-tasks-btn');
+
+// Evento para adicionar tarefa
+addTaskButton.addEventListener('click', function() {
+    const task = taskInput.value.trim();
+    if (task !== '') {
+        // Criando elemento de tarefa
+        const taskElement = document.createElement('div');
+        taskElement.classList.add('task');
+        taskElement.textContent = task;
+
+        // Adicionando tarefa à lista na página
+        taskList.appendChild(taskElement);
+
+        // Salvando tarefa no localStorage
+        saveTaskToLocalStorage(task);
+
+        // Limpar campo de entrada
+        taskInput.value = '';
+    }
+});
+
+// Evento para limpar todas as tarefas
+clearTasksButton.addEventListener('click', function() {
+    localStorage.removeItem('tasks');
+    taskList.innerHTML = '';
+});
+
+// Função para salvar tarefa no localStorage
+function saveTaskToLocalStorage(task) {
+    let tasks;
+    if (localStorage.getItem('tasks') === null) {
+        tasks = [];
+    } else {
+        tasks = JSON.parse(localStorage.getItem('tasks'));
+    }
+
+    tasks.push(task);
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+// Recuperando tarefas do localStorage ao carregar a página
+document.addEventListener('DOMContentLoaded', function() {
+    let tasks;
+    if (localStorage.getItem('tasks') === null) {
+        tasks = [];
+    } else {
+        tasks = JSON.parse(localStorage.getItem('tasks'));
+    }
+
+    tasks.forEach(task => {
+        const taskElement = document.createElement('div');
+        taskElement.classList.add('task');
+        taskElement.textContent = task;
+        taskList.appendChild(taskElement);
+    });
+});
+    </script>
+</body>
+</html> -->
+
+
+
+
+
+
+
+
+
+<!--
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gráfico de Acertos e Erros do ENEM</title>
+     Incluindo Chart.js 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 600px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        input[type="number"] {
+            width: 80px;
+            padding: 8px;
+            font-size: 16px;
+            margin: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        canvas {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Gráfico de Acertos e Erros do ENEM</h2>
+        <form id="enem-form">
+            <label for="acertos">Quantidade de Acertos:</label>
+            <input type="number" id="acertos" name="acertos" min="0" value="0">
+            <br>
+            <label for="erros">Quantidade de Erros:</label>
+            <input type="number" id="erros" name="erros" min="0" value="0">
+            <br><br>
+            <button type="button" id="gerar-grafico">Gerar Gráfico</button>
+        </form>
+        <canvas id="enem-chart" width="400" height="200"></canvas>
+    </div>
+
+    <script>
+        
+        document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('enem-form');
+    const acertosInput = document.getElementById('acertos');
+    const errosInput = document.getElementById('erros');
+    const gerarGraficoButton = document.getElementById('gerar-grafico');
+    const chartCanvas = document.getElementById('enem-chart').getContext('2d');
+    let myChart; // Variável para armazenar o gráfico
+
+    gerarGraficoButton.addEventListener('click', function() {
+        const acertos = parseInt(acertosInput.value);
+        const erros = parseInt(errosInput.value);
+        
+        // Criando ou atualizando o gráfico com Chart.js
+        if (myChart) {
+            updateChart(myChart, acertos, erros);
+        } else {
+            myChart = createChart(chartCanvas, acertos, erros);
+        }
+    });
+
+    function createChart(ctx, acertos, erros) {
+        return new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Acertos', 'Erros'],
+                datasets: [{
+                    label: 'Desempenho ENEM',
+                    data: [acertos, erros],
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(255, 99, 132, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(255, 99, 132, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    }
+
+    function updateChart(chart, acertos, erros) {
+        chart.data.datasets[0].data = [acertos, erros];
+        chart.update();
+    }
+});
+    </script>
+</body>
+</html> -->
+
+
+
+<!--
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Questionário ENEM</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+    }
+    h2 {
+        color: #333;
+    }
+    form {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+    }
+    label {
+        display: block;
+        margin-bottom: 8px;
+    }
+    input[type="radio"] {
+        margin-right: 5px;
+    }
+    button {
+        margin-top: 10px;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+    }
+    canvas {
+        display: block;
+        margin: 20px auto;
+        max-width: 600px;
+    }
+</style>
+</head>
+<body>
+
+<h2>Questionário ENEM</h2>
+
+<form id="quizForm">
+    <div>
+        <label for="questao1">Questão 1: Matemática</label>
+        <input type="radio" name="questao1" value="certo"> Certo
+        <input type="radio" name="questao1" value="errado"> Errado
+        <br>
+        <label for="emoção1">Como se sentiu após responder?</label>
+        <select name="emoção1" id="emoção1">
+            <option value="feliz">Feliz</option>
+            <option value="neutro">Neutro</option>
+            <option value="triste">Triste</option>
+        </select>
+    </div>
+    
+    <div>
+        <label for="questao2">Questão 2: Português</label>
+        <input type="radio" name="questao2" value="certo"> Certo
+        <input type="radio" name="questao2" value="errado"> Errado
+        <br>
+        <label for="emoção2">Como se sentiu após responder?</label>
+        <select name="emoção2" id="emoção2">
+            <option value="feliz">Feliz</option>
+            <option value="neutro">Neutro</option>
+            <option value="triste">Triste</option>
+        </select>
+    </div>
+    
+    Adicione mais questões aqui conforme necessário 
+
+    <button type="submit">Enviar Respostas</button>
+</form>
+
+<canvas id="grafico" width="600" height="400"></canvas>
+
+<script>
+document.getElementById('quizForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    let acertos = 0;
+    let erros = 0;
+
+    // Verifica respostas da questão 1
+    let resposta1 = document.querySelector('input[name="questao1"]:checked');
+    if (resposta1) {
+        if (resposta1.value === 'certo') {
+            acertos++;
+        } else if (resposta1.value === 'errado') {
+            erros++;
+        }
+    }
+
+    // Verifica respostas da questão 2
+    let resposta2 = document.querySelector('input[name="questao2"]:checked');
+    if (resposta2) {
+        if (resposta2.value === 'certo') {
+            acertos++;
+        } else if (resposta2.value === 'errado') {
+            erros++;
+        }
+    }
+
+    // Adicione mais verificações conforme mais questões forem adicionadas
+
+    // Obtém emoções
+    let emoção1 = document.getElementById('emoção1').value;
+    let emoção2 = document.getElementById('emoção2').value;
+
+    // Cria gráfico
+    criarGrafico(emoção1, emoção2, acertos, erros);
+});
+
+function criarGrafico(emoção1, emoção2, acertos, erros) {
+    let ctx = document.getElementById('grafico').getContext('2d');
+    
+    let chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Questão 1', 'Questão 2'],
+            datasets: [{
+                label: 'Acertos',
+                backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                data: [emoção1 === 'feliz' ? acertos : 0, emoção2 === 'feliz' ? acertos : 0]
+            }, {
+                label: 'Erros',
+                backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                data: [emoção1 === 'triste' ? erros : 0, emoção2 === 'triste' ? erros : 0]
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+}
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html> 
+-->
+
+<!--
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Questionário ENEM</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+    }
+    h2 {
+        color: #333;
+    }
+    form {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+    }
+    label {
+        display: block;
+        margin-bottom: 8px;
+    }
+    input[type="radio"] {
+        margin-right: 5px;
+    }
+    button {
+        margin-top: 10px;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+    }
+    canvas {
+        display: block;
+        margin: 20px auto;
+        max-width: 600px;
+    }
+</style>
+</head>
+<body>
+
+<h2>Questionário ENEM</h2>
+
+<form id="quizForm">
+    <div>
+        <label for="questao1">Questão 1: Matemática</label>
+        <input type="radio" name="questao1" value="certo"> Certo
+        <input type="radio" name="questao1" value="errado"> Errado
+        <br>
+        <label for="emoção1">Como se sentiu após responder?</label>
+        <select name="emoção1" id="emoção1">
+            <option value="feliz">Feliz</option>
+            <option value="neutro">Neutro</option>
+            <option value="triste">Triste</option>
+        </select>
+    </div>
+    
+    <div>
+        <label for="questao2">Questão 2: Português</label>
+        <input type="radio" name="questao2" value="certo"> Certo
+        <input type="radio" name="questao2" value="errado"> Errado
+        <br>
+        <label for="emoção2">Como se sentiu após responder?</label>
+        <select name="emoção2" id="emoção2">
+            <option value="feliz">Feliz</option>
+            <option value="neutro">Neutro</option>
+            <option value="triste">Triste</option>
+        </select>
+    </div>
+    
+    Adicione mais questões aqui conforme necessário 
+
+    <button type="submit">Enviar Respostas</button>
+</form>
+
+<canvas id="grafico" width="600" height="400"></canvas>
+
+<script>
+document.getElementById('quizForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    let acertos = 0;
+    let erros = 0;
+    let emoções = [];
+
+    // Verifica respostas da questão 1
+    let resposta1 = document.querySelector('input[name="questao1"]:checked');
+    if (resposta1) {
+        if (resposta1.value === 'certo') {
+            acertos++;
+        } else if (resposta1.value === 'errado') {
+            erros++;
+        }
+        emoções.push(document.getElementById('emoção1').value);
+    }
+
+    // Verifica respostas da questão 2
+    let resposta2 = document.querySelector('input[name="questao2"]:checked');
+    if (resposta2) {
+        if (resposta2.value === 'certo') {
+            acertos++;
+        } else if (resposta2.value === 'errado') {
+            erros++;
+        }
+        emoções.push(document.getElementById('emoção2').value);
+    }
+
+    // Adicione mais verificações conforme mais questões forem adicionadas
+
+    // Cria gráfico
+    criarGrafico(emoções, acertos, erros);
+});
+
+function criarGrafico(emoções, acertos, erros) {
+    let ctx = document.getElementById('grafico').getContext('2d');
+
+    let emoçõesLabels = ['Questão 1', 'Questão 2'];
+    let emoçõesDataset = [];
+
+    emoções.forEach((emoção, index) => {
+        let cor = '';
+        if (emoção === 'feliz') {
+            cor = 'rgba(75, 192, 192, 0.5)'; // verde
+        } else if (emoção === 'neutro') {
+            cor = 'rgba(255, 206, 86, 0.5)'; // amarelo
+        } else if (emoção === 'triste') {
+            cor = 'rgba(255, 99, 132, 0.5)'; // vermelho
+        }
+
+        emoçõesDataset.push({
+            label: emoçõesLabels[index],
+            backgroundColor: cor,
+            data: [acertos, erros]
+        });
+    });
+
+    let chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Acertos', 'Erros'],
+            datasets: emoçõesDataset
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+}
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>
+
+ -->
+
+<!--
+
+ <!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Questionário ENEM com Análise Emocional</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+    }
+    h2 {
+        color: #333;
+    }
+    form {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+    }
+    label {
+        display: block;
+        margin-bottom: 8px;
+    }
+    input[type="radio"] {
+        margin-right: 5px;
+    }
+    button {
+        margin-top: 10px;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+    }
+    canvas {
+        display: block;
+        margin: 20px auto;
+        max-width: 600px;
+    }
+    .analysis {
+        margin-top: 20px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #f0f0f0;
+    }
+</style>
+</head>
+<body>
+
+<h2>Questionário ENEM com Análise Emocional</h2>
+
+<form id="quizForm">
+    <div>
+        <label for="questao1">Questão 1: Matemática</label>
+        <input type="radio" name="questao1" value="certo"> Certo
+        <input type="radio" name="questao1" value="errado"> Errado
+        <br>
+        <label for="emoção1">Como se sentiu após responder?</label>
+        <select name="emoção1" id="emoção1">
+            <option value="feliz">Feliz</option>
+            <option value="neutro">Neutro</option>
+            <option value="triste">Triste</option>
+        </select>
+    </div>
+    
+    <div>
+        <label for="questao2">Questão 2: Português</label>
+        <input type="radio" name="questao2" value="certo"> Certo
+        <input type="radio" name="questao2" value="errado"> Errado
+        <br>
+        <label for="emoção2">Como se sentiu após responder?</label>
+        <select name="emoção2" id="emoção2">
+            <option value="feliz">Feliz</option>
+            <option value="neutro">Neutro</option>
+            <option value="triste">Triste</option>
+        </select>
+    </div>
+    
+     Adicione mais questões aqui conforme necessário 
+
+    <button type="submit">Enviar Respostas</button>
+</form>
+
+<canvas id="grafico" width="600" height="400"></canvas>
+
+<div id="analysis" class="analysis">
+    <h3>Análise Emocional</h3>
+    <canvas id="emoçãoChart" width="400" height="300"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.getElementById('quizForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    let acertos = 0;
+    let erros = 0;
+    let emoções = [];
+
+    // Verifica respostas da questão 1
+    let resposta1 = document.querySelector('input[name="questao1"]:checked');
+    if (resposta1) {
+        if (resposta1.value === 'certo') {
+            acertos++;
+        } else if (resposta1.value === 'errado') {
+            erros++;
+        }
+        emoções.push(document.getElementById('emoção1').value);
+    }
+
+    // Verifica respostas da questão 2
+    let resposta2 = document.querySelector('input[name="questao2"]:checked');
+    if (resposta2) {
+        if (resposta2.value === 'certo') {
+            acertos++;
+        } else if (resposta2.value === 'errado') {
+            erros++;
+        }
+        emoções.push(document.getElementById('emoção2').value);
+    }
+
+    // Adicione mais verificações conforme mais questões forem adicionadas
+
+    // Cria gráfico principal
+    criarGraficoPrincipal(acertos, erros);
+
+    // Cria gráfico de emoções
+    criarGraficoEmoções(emoções);
+});
+
+function criarGraficoPrincipal(acertos, erros) {
+    let ctx = document.getElementById('grafico').getContext('2d');
+
+    let chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Acertos', 'Erros'],
+            datasets: [{
+                label: 'Desempenho Geral',
+                backgroundColor: ['rgba(75, 192, 192, 0.5)', 'rgba(255, 99, 132, 0.5)'],
+                borderColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)'],
+                borderWidth: 1,
+                data: [acertos, erros]
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+}
+
+function criarGraficoEmoções(emoções) {
+    let ctx = document.getElementById('emoçãoChart').getContext('2d');
+
+    let emoçõesCount = {
+        feliz: 0,
+        neutro: 0,
+        triste: 0
+    };
+
+    emoções.forEach(emoção => {
+        emoçõesCount[emoção]++;
+    });
+
+    let chart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['Feliz', 'Neutro', 'Triste'],
+            datasets: [{
+                label: 'Análise Emocional',
+                backgroundColor: ['rgba(75, 192, 192, 0.5)', 'rgba(255, 206, 86, 0.5)', 'rgba(255, 99, 132, 0.5)'],
+                borderColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 206, 86, 1)', 'rgba(255, 99, 132, 1)'],
+                borderWidth: 1,
+                data: [emoçõesCount.feliz, emoçõesCount.neutro, emoçõesCount.triste]
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            legend: {
+                position: 'bottom',
+            },
+            title: {
+                display: true,
+                text: 'Como você se sentiu ao responder as questões?'
+            }
+        }
+    });
+}
+</script>
+</body>
+</html> -->
+
+
+<!--
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Questionário ENEM com Recomendações de Estudos</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+    }
+    h2 {
+        color: #333;
+    }
+    form {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+    }
+    label {
+        display: block;
+        margin-bottom: 8px;
+    }
+    input[type="radio"] {
+        margin-right: 5px;
+    }
+    button {
+        margin-top: 10px;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+    }
+    canvas {
+        display: block;
+        margin: 20px auto;
+        max-width: 600px;
+    }
+    .analysis {
+        margin-top: 20px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #f0f0f0;
+    }
+    .recomendacoes {
+        margin-top: 20px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+    }
+</style>
+</head>
+<body>
+
+<h2>Questionário ENEM com Recomendações de Estudos</h2>
+
+<form id="quizForm">
+    <div>
+        <label for="questao1">Questão 1: Matemática</label>
+        <input type="radio" name="questao1" value="certo"> Certo
+        <input type="radio" name="questao1" value="errado"> Errado
+        <br>
+        <label for="emoção1">Como se sentiu após responder?</label>
+        <select name="emoção1" id="emoção1">
+            <option value="feliz">Feliz</option>
+            <option value="neutro">Neutro</option>
+            <option value="triste">Triste</option>
+        </select>
+    </div>
+    
+    <div>
+        <label for="questao2">Questão 2: Português</label>
+        <input type="radio" name="questao2" value="certo"> Certo
+        <input type="radio" name="questao2" value="errado"> Errado
+        <br>
+        <label for="emoção2">Como se sentiu após responder?</label>
+        <select name="emoção2" id="emoção2">
+            <option value="feliz">Feliz</option>
+            <option value="neutro">Neutro</option>
+            <option value="triste">Triste</option>
+        </select>
+    </div>
+    
+    Adicione mais questões aqui conforme necessário 
+
+    <button type="submit">Enviar Respostas</button>
+</form>
+
+<canvas id="grafico" width="600" height="400"></canvas>
+
+<div id="analysis" class="analysis">
+    <h3>Análise Emocional</h3>
+    <canvas id="emoçãoChart" width="400" height="300"></canvas>
+</div>
+
+<div id="recomendacoes" class="recomendacoes">
+    <h3>Recomendações de Estudos</h3>
+    <ul id="recomendacoesList">
+         As recomendações de estudo serão adicionadas dinamicamente aqui 
+    </ul>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.getElementById('quizForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    let acertos = 0;
+    let erros = 0;
+    let emoções = [];
+
+    // Verifica respostas da questão 1
+    let resposta1 = document.querySelector('input[name="questao1"]:checked');
+    if (resposta1) {
+        if (resposta1.value === 'certo') {
+            acertos++;
+        } else if (resposta1.value === 'errado') {
+            erros++;
+        }
+        emoções.push(document.getElementById('emoção1').value);
+    }
+
+    // Verifica respostas da questão 2
+    let resposta2 = document.querySelector('input[name="questao2"]:checked');
+    if (resposta2) {
+        if (resposta2.value === 'certo') {
+            acertos++;
+        } else if (resposta2.value === 'errado') {
+            erros++;
+        }
+        emoções.push(document.getElementById('emoção2').value);
+    }
+
+    // Adicione mais verificações conforme mais questões forem adicionadas
+
+    // Cria gráfico principal
+    criarGraficoPrincipal(acertos, erros);
+
+    // Cria gráfico de emoções
+    criarGraficoEmoções(emoções);
+
+    // Mostra recomendações de estudos
+    mostrarRecomendacoes(emoções);
+});
+
+function criarGraficoPrincipal(acertos, erros) {
+    let ctx = document.getElementById('grafico').getContext('2d');
+
+    let chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Acertos', 'Erros'],
+            datasets: [{
+                label: 'Desempenho Geral',
+                backgroundColor: ['rgba(75, 192, 192, 0.5)', 'rgba(255, 99, 132, 0.5)'],
+                borderColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)'],
+                borderWidth: 1,
+                data: [acertos, erros]
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+}
+
+function criarGraficoEmoções(emoções) {
+    let ctx = document.getElementById('emoçãoChart').getContext('2d');
+
+    let emoçõesCount = {
+        feliz: 0,
+        neutro: 0,
+        triste: 0
+    };
+
+    emoções.forEach(emoção => {
+        emoçõesCount[emoção]++;
+    });
+
+    let chart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['Feliz', 'Neutro', 'Triste'],
+            datasets: [{
+                label: 'Análise Emocional',
+                backgroundColor: ['rgba(75, 192, 192, 0.5)', 'rgba(255, 206, 86, 0.5)', 'rgba(255, 99, 132, 0.5)'],
+                borderColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 206, 86, 1)', 'rgba(255, 99, 132, 1)'],
+                borderWidth: 1,
+                data: [emoçõesCount.feliz, emoçõesCount.neutro, emoçõesCount.triste]
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            legend: {
+                position: 'bottom',
+            },
+            title: {
+                display: true,
+                text: 'Como você se sentiu ao responder as questões?'
+            }
+        }
+    });
+}
+
+function mostrarRecomendacoes(emoções) {
+    let recomendacoesList = document.getElementById('recomendacoesList');
+    recomendacoesList.innerHTML = ''; // Limpa a lista de recomendações
+
+    emoções.forEach(emoção => {
+        let li = document.createElement('li');
+        switch (emoção) {
+            case 'feliz':
+                li.textContent = 'Recomendação para quando se sentiu feliz: Revise os conteúdos já dominados e resolva mais exercícios para reforçar o aprendizado.';
+                break;
+            case 'neutro':
+                li.textContent = 'Recomendação para quando se sentiu neutro: Identifique os tópicos que precisam de mais atenção e revise-os com cuidado.';
+                break;
+            case 'triste':
+                li.textContent = 'Recomendação para quando se sentiu triste: Não se preocupe com o desempenho individual em questões específicas. Foque em entender onde pode melhorar e buscar apoio adicional se necessário.';
+                break;
+            default:
+                break;
+        }
+        recomendacoesList.appendChild(li);
+    });
+}
+</script>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Questionário ENEM com Recomendações de Estudos</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+    }
+    h2 {
+        color: #333;
+    }
+    form {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+    }
+    label {
+        display: block;
+        margin-bottom: 8px;
+    }
+    input[type="radio"] {
+        margin-right: 5px;
+    }
+    button {
+        margin-top: 10px;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+    }
+    canvas {
+        display: block;
+        margin: 20px auto;
+        max-width: 600px;
+    }
+    .analysis {
+        margin-top: 20px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #f0f0f0;
+    }
+    .recomendacoes {
+        margin-top: 20px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+    }
+</style>
+</head>
+<body>
+
+<h2>Questionário ENEM com Recomendações de Estudos</h2>
+
+<form id="quizForm">
+    <div>
+        <label for="questao1">Questão 1: Matemática</label>
+        <input type="radio" name="questao1" value="certo"> Certo
+        <input type="radio" name="questao1" value="errado"> Errado
+        <br>
+        <label for="emoção1">Como se sentiu após responder?</label>
+        <select name="emoção1" id="emoção1">
+            <option value="feliz">Feliz</option>
+            <option value="neutro">Neutro</option>
+            <option value="triste">Triste</option>
+        </select>
+    </div>
+    
+    <div>
+        <label for="questao2">Questão 2: Português</label>
+        <input type="radio" name="questao2" value="certo"> Certo
+        <input type="radio" name="questao2" value="errado"> Errado
+        <br>
+        <label for="emoção2">Como se sentiu após responder?</label>
+        <select name="emoção2" id="emoção2">
+            <option value="feliz">Feliz</option>
+            <option value="neutro">Neutro</option>
+            <option value="triste">Triste</option>
+        </select>
+    </div>
+    
+    <!-- Adicione mais questões aqui conforme necessário -->
+
+    <button type="submit">Enviar Respostas</button>
+</form>
+
+<canvas id="grafico" width="600" height="400"></canvas>
+
+<div id="analysis" class="analysis">
+    <h3>Análise Emocional</h3>
+    <canvas id="emoçãoChart" width="400" height="300"></canvas>
+</div>
+
+<div id="recomendacoes" class="recomendacoes">
+    <h3>Recomendações de Estudos</h3>
+    <ul id="recomendacoesList">
+        <!-- As recomendações de estudo serão adicionadas dinamicamente aqui -->
+    </ul>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.getElementById('quizForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    let acertos = 0;
+    let erros = 0;
+    let emoções = [];
+
+    // Verifica respostas da questão 1
+    let resposta1 = document.querySelector('input[name="questao1"]:checked');
+    if (resposta1) {
+        if (resposta1.value === 'certo') {
+            acertos++;
+        } else if (resposta1.value === 'errado') {
+            erros++;
+        }
+        emoções.push(document.getElementById('emoção1').value);
+    }
+
+    // Verifica respostas da questão 2
+    let resposta2 = document.querySelector('input[name="questao2"]:checked');
+    if (resposta2) {
+        if (resposta2.value === 'certo') {
+            acertos++;
+        } else if (resposta2.value === 'errado') {
+            erros++;
+        }
+        emoções.push(document.getElementById('emoção2').value);
+    }
+
+    // Adicione mais verificações conforme mais questões forem adicionadas
+
+    // Cria gráfico principal
+    criarGraficoPrincipal(acertos, erros);
+
+    // Cria gráfico de emoções
+    criarGraficoEmoções(emoções);
+
+    // Mostra recomendações de estudos
+    mostrarRecomendacoes(emoções, acertos);
+});
+
+function criarGraficoPrincipal(acertos, erros) {
+    let ctx = document.getElementById('grafico').getContext('2d');
+
+    let chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Acertos', 'Erros'],
+            datasets: [{
+                label: 'Desempenho Geral',
+                backgroundColor: ['rgba(75, 192, 192, 0.5)', 'rgba(255, 99, 132, 0.5)'],
+                borderColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)'],
+                borderWidth: 1,
+                data: [acertos, erros]
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+}
+
+function criarGraficoEmoções(emoções) {
+    let ctx = document.getElementById('emoçãoChart').getContext('2d');
+
+    let emoçõesCount = {
+        feliz: 0,
+        neutro: 0,
+        triste: 0
+    };
+
+    emoções.forEach(emoção => {
+        emoçõesCount[emoção]++;
+    });
+
+    let chart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['Feliz', 'Neutro', 'Triste'],
+            datasets: [{
+                label: 'Análise Emocional',
+                backgroundColor: ['rgba(75, 192, 192, 0.5)', 'rgba(255, 206, 86, 0.5)', 'rgba(255, 99, 132, 0.5)'],
+                borderColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 206, 86, 1)', 'rgba(255, 99, 132, 1)'],
+                borderWidth: 1,
+                data: [emoçõesCount.feliz, emoçõesCount.neutro, emoçõesCount.triste]
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            legend: {
+                position: 'bottom',
+            },
+            title: {
+                display: true,
+                text: 'Como você se sentiu ao responder as questões?'
+            }
+        }
+    });
+}
+
+function mostrarRecomendacoes(emoções, acertos) {
+    let recomendacoesList = document.getElementById('recomendacoesList');
+    recomendacoesList.innerHTML = ''; // Limpa a lista de recomendações
+
+    emoções.forEach(emoção => {
+        let li = document.createElement('li');
+        switch (emoção) {
+            case 'feliz':
+                if (acertos >= 1) {
+                    li.textContent = 'Recomendação para quando se sentiu feliz: Continue revisando os assuntos, mantendo o foco nos detalhes que ainda não foram totalmente aprendidos.';
+                } else {
+                    li.textContent = 'Recomendação para quando se sentiu feliz: Continue revisando os assuntos e preste atenção especial aos detalhes que ainda não foram totalmente aprendidos.';
+                }
+                break;
+            case 'neutro':
+                if (acertos >= 1) {
+                    li.textContent = 'Recomendação para quando se sentiu neutro: Revise os tópicos que parecem menos claros e resolva mais exercícios para reforçar o aprendizado.';
+                } else {
+                    li.textContent = 'Recomendação para quando se sentiu neutro: Identifique os tópicos que precisam de mais atenção e revise-os com cuidado.';
+                }
+                break;
+            case 'triste':
+                if (acertos >= 1) {
+                    li.textContent = 'Recomendação para quando se sentiu triste: Não desanime! Revise os tópicos com calma e procure entender onde ocorreram os erros.';
+                } else {
+                    li.textContent = 'Recomendação para quando se sentiu triste: Não desanime! Revise os tópicos com calma e procure entender onde ocorreram os erros.';
+                }
+                break;
+            default:
+                li.textContent = 'Recomendação geral: Continue estudando e revisando para melhorar seu desempenho geral.';
+        }
+        recomendacoesList.appendChild(li);
+    });
+}
+</script>
+
+</body>
+</html>

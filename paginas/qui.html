@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Home</title>
+	<link rel="stylesheet" type="text/css" href="../estilos/qui.css">
+</head>
+<body>
+	<header>
+		<nav>
+			
+			<a href="paginas/matérias.html" hreflang="pt-BR" target="_self">
+				<span><img src="../midias/icones/matérias.png"> Matérias</span>
+			</a>
+
+			
+			<a href="paginas/desempenho.html" hreflang="pt-BR" target="_self">
+				<span><img src="../midias/icones/gráfico.png"> Desempenho</span>
+			</a>
+
+			
+			<a href="paginas/tutor.html" hreflang="pt-BR" target="_self">
+				<span><img src="../midias/icones/fórum.png"> Tutor</span>
+			</a>
+		</nav>
+
+		<main>
+			
+
+			<form id="quizForm">
+					<h2>Química</h2>
+			    <div>
+			        <label for="questao1">Questão 1: O consumo exagerado de refrigerantes é preocupante, pois contribui para o aumento de casos de obesidade e diabetes. Considere dois refrigerantes enlatados, um comum e um diet, e que ambos possuam a mesma quantidade de aditivos, exceto pela presença de açúcar. O refrigerante comum contém basicamente água carbonatada e grande quantidade de açúcar; já o refrigerante diet tem água carbonatada e adoçantes, cujas massas são muito pequenas.
+			        </label>
+			        <input type="radio" name="questao1" value="certo"> Maior densidade <br>
+			        <input type="radio" name="questao1" value="errado"> Menor viscosidade <br>
+			        <input type="radio" name="questao1" value="errado"> Maior volume de gás dissolvido <br>
+			        <input type="radio" name="questao1" value="errado"> Menor massa de solutos dissolvidos <br>
+			        <input type="radio" name="questao1" value="errado"> Maior temperatura de congelamento
+			        <br>
+			        <br>
+			        <label for="emoção1">Como se sentiu após responder?</label>
+			        <select name="emoção1" id="emoção1">
+			            <option value="feliz">Feliz</option>
+			            <option value="neutro">Neutro</option>
+			            <option value="triste">Triste</option>
+			        </select> 
+			    </div>
+			    
+			    <div>
+			        <label for="questao2">Questão 2: Português</label>
+			        <input type="radio" name="questao2" value="certo"> Certo
+			        <input type="radio" name="questao2" value="errado"> Errado
+			        <br>
+			        <label for="emoção2">Como se sentiu após responder?</label>
+			        <select name="emoção2" id="emoção2">
+			            <option value="feliz">Feliz</option>
+			            <option value="neutro">Neutro</option>
+			            <option value="triste">Triste</option>
+			        </select>
+			    </div>
+			    
+			    <!-- Adicione mais questões aqui conforme necessário -->
+
+			    <button type="submit">Enviar Respostas</button>
+			</form>
+
+			<canvas id="grafico" width="600" height="400"></canvas>
+
+			<div id="analysis" class="analysis">
+			    <h3 style="text-align: center;">Análise Emocional</h3>
+			    <canvas id="emoçãoChart" width="400" height="300"></canvas>
+			</div>
+
+			<div id="recomendacoes" class="recomendacoes">
+			    <h3>Recomendações de Estudos</h3>
+			    <ul id="recomendacoesList">
+			        <!-- As recomendações de estudo serão adicionadas dinamicamente aqui -->
+			    </ul>
+			</div>
+		</main>
+
+		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+	document.getElementById('quizForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    let acertos = 0;
+    let erros = 0;
+    let emoções = [];
+
+    // Verifica respostas da questão 1
+    let resposta1 = document.querySelector('input[name="questao1"]:checked');
+    if (resposta1) {
+        if (resposta1.value === 'certo') {
+            acertos++;
+        } else if (resposta1.value === 'errado') {
+            erros++;
+        }
+        emoções.push(document.getElementById('emoção1').value);
+    }
+
+    // Verifica respostas da questão 2
+    let resposta2 = document.querySelector('input[name="questao2"]:checked');
+    if (resposta2) {
+        if (resposta2.value === 'certo') {
+            acertos++;
+        } else if (resposta2.value === 'errado') {
+            erros++;
+        }
+        emoções.push(document.getElementById('emoção2').value);
+    }
+
+    // Adicione mais verificações conforme mais questões forem adicionadas
+
+    // Cria gráfico principal
+    criarGraficoPrincipal(acertos, erros);
+
+    // Cria gráfico de emoções
+    criarGraficoEmoções(emoções);
+
+    // Mostra recomendações de estudos
+    mostrarRecomendacoes(emoções, acertos, erros);
+});
+
+function criarGraficoPrincipal(acertos, erros) {
+    let ctx = document.getElementById('grafico').getContext('2d');
+
+    let chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Acertos', 'Erros'],
+            datasets: [{
+                label: 'Desempenho Geral',
+                backgroundColor: ['rgba(75, 192, 192, 0.5)', 'rgba(255, 99, 132, 0.5)'],
+                borderColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)'],
+                borderWidth: 1,
+                data: [acertos, erros]
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+}
+
+function criarGraficoEmoções(emoções) {
+    let ctx = document.getElementById('emoçãoChart').getContext('2d');
+
+    let emoçõesCount = {
+        feliz: 0,
+        neutro: 0,
+        triste: 0
+    };
+
+    emoções.forEach(emoção => {
+        emoçõesCount[emoção]++;
+    });
+
+    let chart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['Feliz', 'Neutro', 'Triste'],
+            datasets: [{
+                label: 'Análise Emocional',
+                backgroundColor: ['rgba(75, 192, 192, 0.5)', 'rgba(255, 206, 86, 0.5)', 'rgba(255, 99, 132, 0.5)'],
+                borderColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 206, 86, 1)', 'rgba(255, 99, 132, 1)'],
+                borderWidth: 1,
+                data: [emoçõesCount.feliz, emoçõesCount.neutro, emoçõesCount.triste]
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            legend: {
+                position: 'bottom',
+            },
+            title: {
+                display: true,
+                text: 'Como você se sentiu ao responder as questões?'
+            }
+        }
+    });
+}
+
+function mostrarRecomendacoes(emoções, acertos, erros) {
+    let recomendacoesList = document.getElementById('recomendacoesList');
+    recomendacoesList.innerHTML = ''; // Limpa a lista de recomendações
+
+    emoções.forEach(emoção => {
+        let li = document.createElement('li');
+        switch (emoção) {
+            case 'feliz':
+                if (acertos > erros) {
+                    li.textContent = 'Recomendação para quando se sentiu feliz e teve mais acertos do que erros: Continue revisando os assuntos, mantendo o foco nos detalhes que ainda não foram totalmente aprendidos.';
+                } else if (acertos === erros) {
+                    li.textContent = 'Recomendação para quando se sentiu feliz e teve a mesma quantidade de acertos e erros: Continue revisando os assuntos e preste atenção especial aos detalhes que ainda não foram totalmente aprendidos.';
+                } else {
+                    li.textContent = 'Recomendação para quando se sentiu feliz e teve mais erros do que acertos: Revise os tópicos com mais cuidado, focando nos pontos que ainda não foram bem compreendidos.';
+                }
+                break;
+            case 'neutro':
+                if (acertos > erros) {
+                    li.textContent = 'Recomendação para quando se sentiu neutro e teve mais acertos do que erros: Revise os tópicos que parecem menos claros e resolva mais exercícios para reforçar o aprendizado.';
+                } else if (acertos === erros) {
+                    li.textContent = 'Recomendação para quando se sentiu neutro e teve a mesma quantidade de acertos e erros: Identifique os tópicos que precisam de mais atenção e revise-os com cuidado.';
+                } else {
+                    li.textContent = 'Recomendação para quando se sentiu neutro e teve mais erros do que acertos: Revise com mais atenção os tópicos abordados e faça novos exercícios para consolidar o conhecimento.';
+                }
+                break;
+            case 'triste':
+                if (acertos > erros) {
+                    li.textContent = 'Recomendação para quando se sentiu triste e teve mais acertos do que erros: Não desanime! Revise os tópicos com calma e procure entender onde ocorreram os erros.';
+                } else if (acertos === erros) {
+                    li.textContent = 'Recomendação para quando se sentiu triste e teve a mesma quantidade de acertos e erros: Revise os tópicos com calma e faça exercícios extras para melhorar o entendimento.';
+                } else {
+                    li.textContent = 'Recomendação para quando se sentiu triste e teve mais erros do que acertos: Concentre-se em entender os erros cometidos, revisando com atenção os temas que ainda não estão claros.';
+                }
+                break;
+            default:
+                li.textContent = 'Recomendação geral: Continue estudando e revisando para melhorar seu desempenho geral.';
+        }
+        recomendacoesList.appendChild(li);
+    });
+}
+</script>
+	</header>

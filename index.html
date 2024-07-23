@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Home</title>
+	<link rel="stylesheet" type="text/css" href="estilos/index.css">
+</head>
+<body>
+	<header>
+		<nav>
+			
+			<a href="paginas/matérias.html" hreflang="pt-BR" target="_self">
+				<span><img src="midias/icones/matérias.png"> Matérias</span>
+			</a>
+
+			
+			<a href="paginas/desempenho.html" hreflang="pt-BR" target="_self">
+				<span><img src="midias/icones/gráfico.png"> Desempenho</span>
+			</a>
+
+			
+			<a href="paginas/tutor.html" hreflang="pt-BR" target="_self">
+				<span><img src="midias/icones/fórum.png"> Tutor</span>
+			</a>
+		</nav>
+	</header>
+
+	<main>
+		<div class="lateral">
+			<div class="list-container">
+				<h2>Revisar</h2>
+        <ul id="custom-list">
+            
+            <!-- Você pode adicionar mais itens aqui -->
+        </ul>
+        <div class="list-actions">
+            <input type="text" id="new-item-input" placeholder="Novo item...">
+            <button id="add-item-btn">✓</button>
+        </div>
+    </div>
+		</div>
+
+		<div class="main">
+					 <div class="calendar">
+			        <div class="month">
+			            <h2 id="month-year"></h2>
+			        </div>
+			        <table>
+			            <thead>
+			                <tr>
+			                    <th>Domingo</th>
+			                    <th>Segunda</th>
+			                    <th>Terça</th>
+			                    <th>Quarta</th>
+			                    <th>Quinta</th>
+			                    <th>Sexta</th>
+			                    <th>Sábado</th>
+			                </tr>
+			            </thead>
+			            <tbody id="calendar-body">
+			                <!-- Os dias do mês serão inseridos aqui via JavaScript -->
+			            </tbody>
+			        </table>
+			    </div>
+
+			     <div id="event-modal" class="modal">
+	        <div class="modal-content">
+	            <span class="close">&times;</span>
+	            <h3 id="event-date"></h3>
+	            <input type="text" id="event-input" placeholder="Adicionar evento...">
+	            <button id="add-event-btn">Adicionar Evento</button>
+	            <ul id="event-list"></ul>
+	        </div>
+    </div>
+		</div>
+	</main>
+
+	<script >
+		document.addEventListener('DOMContentLoaded', function() {
+    const calendarBody = document.getElementById('calendar-body');
+    const monthYearText = document.getElementById('month-year');
+    const eventModal = document.getElementById('event-modal');
+    const eventDateText = document.getElementById('event-date');
+    const eventInput = document.getElementById('event-input');
+    const addEventButton = document.getElementById('add-event-btn');
+    const eventList = document.getElementById('event-list');
+    const closeModal = document.querySelector('.close');
+
+    let currentDate = new Date();
+    let currentMonth = currentDate.getMonth();
+    let currentYear = currentDate.getFullYear();
+
+    function generateCalendar(month, year) {
+        let firstDay = new Date(year, month, 1);
+        let lastDay = new Date(year, month + 1, 0);
+        let startingDay = firstDay.getDay();
+        let endingDay = lastDay.getDate();
+
+        calendarBody.innerHTML = '';
+
+        monthYearText.textContent = `${getMonthName(month)} ${year}`;
+
+        let date = 1;
+        for (let i = 0; i < 6; i++) {
+            let row = document.createElement('tr');
+            for (let j = 0; j < 7; j++) {
+                if (i === 0 && j < startingDay) {
+                    let cell = document.createElement('td');
+                    row.appendChild(cell);
+                } else if (date > endingDay) {
+                    break;
+                } else {
+                    let cell = document.createElement('td');
+                    cell.textContent = date;
+                    cell.setAttribute('data-date', `${year}-${padNumber(month + 1)}-${padNumber(date)}`);
+                    cell.addEventListener('click', handleDateClick);
+                    row.appendChild(cell);
+                    date++;
+                }
+            }
+            calendarBody.appendChild(row);
+        }
+    }
+
+    function padNumber(number) {
+        return (number < 10) ? `0${number}` : number;
+    }
+
+    function getMonthName(month) {
+        const months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+        return months[month];
+    }
+
+    function handleDateClick() {
+        let selectedDate = this.getAttribute('data-date');
+        eventDateText.textContent = selectedDate;
+        eventInput.value = '';
+        updateEventList(selectedDate);
+        eventModal.style.display = 'block';
+    }
+
+    addEventButton.addEventListener('click', function() {
+        let selectedDate = eventDateText.textContent;
+        let eventText = eventInput.value.trim();
+        if (eventText !== '') {
+            addEvent(selectedDate, eventText);
+            updateEventList(selectedDate);
+            eventInput.value = '';
+        }
+    });
+
+    closeModal.addEventListener('click', function() {
+        eventModal.style.display = 'none';
+    });
+
+    window.addEventListener('click', function(event) {
+        if (event.target === eventModal) {
+            eventModal.style.display = 'none';
+        }
+    });
+
+    function addEvent(date, eventText) {
+        let events = JSON.parse(localStorage.getItem('events')) || {};
+        if (!events[date]) {
+            events[date] = [];
+        }
+        events[date].push(eventText);
+        localStorage.setItem('events', JSON.stringify(events));
+    }
+
+    function updateEventList(date) {
+        let events = JSON.parse(localStorage.getItem('events')) || {};
+        let eventsForDate = events[date] || [];
+        eventList.innerHTML = '';
+        eventsForDate.forEach(event => {
+            let li = document.createElement('li');
+            li.textContent = event;
+            eventList.appendChild(li);
+        });
+    }
+
+    generateCalendar(currentMonth, currentYear);
+});
+
+
+	 document.addEventListener('DOMContentLoaded', function() {
+    const addItemButton = document.getElementById('add-item-btn');
+    const newItemInput = document.getElementById('new-item-input');
+    const customList = document.getElementById('custom-list');
+
+    addItemButton.addEventListener('click', function() {
+        const newItemText = newItemInput.value.trim();
+        if (newItemText !== '') {
+            const newItem = document.createElement('li');
+            newItem.textContent = newItemText;
+            customList.appendChild(newItem);
+            newItemInput.value = '';
+        }
+    });
+
+    newItemInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            addItemButton.click();
+        }
+    });
+});
+	</script>
+</body>
+</html>
