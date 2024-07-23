@@ -18,6 +18,7 @@ nav{
 img{
     width: 1.1em;
     height: 1.1em;
+    border: 1px solid black;
 }
 
 nav a{
@@ -48,10 +49,11 @@ a{
 		border-radius: 20%;
 		text-align: center;
 		margin-right: 0.5em;
+		border-bottom-style: none;
 }
 
 .case img{
-	width: 6.8em;
+	width: 7em;
 	height: 5.5em;
 	border-radius: 0 0  10% 10%;
 }

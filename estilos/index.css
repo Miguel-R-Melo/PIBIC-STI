@@ -140,44 +140,56 @@ h2{
     margin-bottom: 20px;
 }
 
+ #todo-container {
+        max-width: 120px;
+        margin: 0 auto;
+        padding: 20px;
+        text-align: left;
+    }
+    input[type="text"] {
+        width: calc(100% - 10px);
+        padding: 2px;
+        font-size: 16px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        text-align: center;  
+    }
 
-ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-li {
-    padding: 10px 0;
-    border-bottom: 1px solid #ccc;
-    text-align: center;
-    color: black;
-}
-
-.list-actions {
-    margin-top: 20px;
-    display: flex;
-    align-items: center;
-}
-
-#new-item-input {
-    flex: 1;
-    padding: 5px;
-    font-size: 0.7em;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-right: 0.5em;
-    width: 8em;
-}
-
-#add-item-btn {
-    padding: 0.3em 0.3em;
-    background-color: #4CAF50;
-    color: black;
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-}
-
-#add-item-btn:hover {
-    background-color: #45a049;
-}
+    button {
+        display: block;
+        width: 5.4em;
+        padding: 8px;
+        margin: 10px auto;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #45a049;
+    }
+    ul {
+        list-style-type: none;
+        padding: 0;
+        text-align: left;
+    }
+    li {
+        margin-bottom: 2px;
+        padding: 3px;
+        border-radius: 4px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+    }
+    .delete-btn {
+        background-color: #f44336;
+        color: white;
+        border: none;
+        padding: 2px 3px;
+        border-radius: 10%;
+        cursor: pointer;
+        width: 1.4em;
+        margin: 10px;
+    }

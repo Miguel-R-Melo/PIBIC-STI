@@ -1157,6 +1157,8 @@ function mostrarRecomendacoes(emoções) {
 </html> -->
 
 
+<!--
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -1246,7 +1248,7 @@ function mostrarRecomendacoes(emoções) {
         </select>
     </div>
     
-    <!-- Adicione mais questões aqui conforme necessário -->
+     Adicione mais questões aqui conforme necessário 
 
     <button type="submit">Enviar Respostas</button>
 </form>
@@ -1261,7 +1263,7 @@ function mostrarRecomendacoes(emoções) {
 <div id="recomendacoes" class="recomendacoes">
     <h3>Recomendações de Estudos</h3>
     <ul id="recomendacoesList">
-        <!-- As recomendações de estudo serão adicionadas dinamicamente aqui -->
+        As recomendações de estudo serão adicionadas dinamicamente aqui 
     </ul>
 </div>
 
@@ -1406,6 +1408,147 @@ function mostrarRecomendacoes(emoções, acertos) {
                 li.textContent = 'Recomendação geral: Continue estudando e revisando para melhorar seu desempenho geral.';
         }
         recomendacoesList.appendChild(li);
+    });
+}
+</script>
+
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>To-Do List with Delete Option</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        text-align: center;
+        margin-top: 30px;
+    }
+    #todo-container {
+        max-width: 300px;
+        margin: 0 auto;
+        padding: 20px;
+        text-align: left;
+    }
+    input[type="text"] {
+        width: calc(100% - 100px);
+        padding: 5px;
+        font-size: 16px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+    button {
+        display: block;
+        width: 40%;
+        padding: 8px;
+        margin-top: 10px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #45a049;
+    }
+    ul {
+        list-style-type: none;
+        padding: 0;
+        text-align: left;
+    }
+    li {
+        margin-bottom: 5px;
+        padding: 8px;
+        border-radius: 4px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .delete-btn {
+        background-color: #f44336;
+        color: white;
+        border: none;
+        padding: 2px 3px;
+        border-radius: 10%;
+        cursor: pointer;
+    }
+</style>
+</head>
+<body>
+<div id="todo-container">
+    <h2>To-Do List</h2>
+    <input type="text" id="todo-input" placeholder="Type your task here...">
+    <button onclick="addTodo()">Add Task</button>
+    <ul id="todo-list">
+        <!-- Tasks will be added dynamically here -->
+    </ul>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    loadTasks();
+});
+
+function addTodo() {
+    var input = document.getElementById('todo-input');
+    var task = input.value.trim();
+
+    if (task !== '') {
+        var ul = document.getElementById('todo-list');
+        var li = document.createElement('li');
+        li.textContent = task;
+
+        var deleteBtn = document.createElement('button');
+        deleteBtn.textContent = 'X';
+        deleteBtn.className = 'delete-btn';
+        deleteBtn.onclick = function() {
+            ul.removeChild(li);
+            saveTasks();
+        };
+
+        li.appendChild(deleteBtn);
+        ul.appendChild(li);
+
+        saveTasks();
+
+        input.value = '';
+    }
+}
+
+function saveTasks() {
+    var tasks = [];
+    var lis = document.querySelectorAll('#todo-list li');
+
+    lis.forEach(function(li) {
+        tasks.push(li.textContent);
+    });
+
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+function loadTasks() {
+    var ul = document.getElementById('todo-list');
+    var tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+    tasks.forEach(function(task) {
+        var li = document.createElement('li');
+        li.textContent = task;
+
+        var deleteBtn = document.createElement('button');
+        deleteBtn.textContent = 'X';
+        deleteBtn.className = 'delete-btn';
+        deleteBtn.onclick = function() {
+            ul.removeChild(li);
+            saveTasks();
+        };
+
+        li.appendChild(deleteBtn);
+        ul.appendChild(li);
     });
 }
 </script>
