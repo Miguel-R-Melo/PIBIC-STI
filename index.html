@@ -1,83 +1,79 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Home</title>
-	<link rel="stylesheet" type="text/css" href="estilos/index.css">
-    <link href="midias/icones/icon.png" rel="shortcut icon" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" type="text/css" href="estilos/index.css">
+<title>Início</title>
 </head>
 <body>
-	<header>
-		<nav>
-			
-			<a href="paginas/matérias.html" hreflang="pt-BR" target="_self">
-				<span><img src="midias/icones/matérias.png"> Matérias</span>
-			</a>
 
-			
-			<a href="paginas/desempenho.html" hreflang="pt-BR" target="_self">
-				<span><img src="midias/icones/gráfico.png"> Desempenho</span>
-			</a>
+<header>
+    <a href="index.html">
+        <img src="midias/icones/casa.png">
+        <span>Início</span>
+    </a>
 
-			
-			<a href="paginas/tutor.html" hreflang="pt-BR" target="_self">
-				<span><img src="midias/icones/fórum.png"> Tutor</span>
-			</a>
-		</nav>
-	</header>
+    <a href="paginas/matérias.html">
+        <img src="midias/icones/matérias.png">
+        <span>Matérias</span>
+    </a>
 
-	<main>
-		<div class="lateral">
-			<div id="todo-container">
-    <h2>Estudar</h2>
-    <input type="text" id="todo-input" placeholder="Digite aqui">
-    <button onclick="addTodo()">Adicionar</button>
-    <ul id="todo-list">
-        <!-- Tasks will be added dynamically here -->
-    </ul>
-</div>
+    <a href="https://www.oliverai.online/" target="_blank">
+        <img src="midias/icones/fórum.png">
+        <span>Tutor</span>
+    </a>
+</header>
+
+<main>
+    <div class="lateral">
+        <div id="todo-container">
+            <h2>Estudar</h2>
+            <input type="text" id="todo-input" placeholder="Adicionar tarefa" style="text-align: center;">
+            <button onclick="addTodo()" id="add-button">✓</button>
+            <ul id="todo-list">
+                <!-- Tarefas serão adicionadas dinamicamente aqui -->
+            </ul>
         </div>
     </div>
-		</div>
 
-		<div class="main">
-					 <div class="calendar">
-			        <div class="month">
-			            <h2 id="month-year"></h2>
-			        </div>
-			        <table>
-			            <thead>
-			                <tr>
-			                    <th>Domingo</th>
-			                    <th>Segunda</th>
-			                    <th>Terça</th>
-			                    <th>Quarta</th>
-			                    <th>Quinta</th>
-			                    <th>Sexta</th>
-			                    <th>Sábado</th>
-			                </tr>
-			            </thead>
-			            <tbody id="calendar-body">
-			                <!-- Os dias do mês serão inseridos aqui via JavaScript -->
-			            </tbody>
-			        </table>
-			    </div>
+    <div class="main">
+        <div class="calendar">
+            <div class="month">
+                <h2 id="month-year"></h2>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Domingo</th>
+                        <th>Segunda</th>
+                        <th>Terça</th>
+                        <th>Quarta</th>
+                        <th>Quinta</th>
+                        <th>Sexta</th>
+                        <th>Sábado</th>
+                    </tr>
+                </thead>
+                <tbody id="calendar-body">
+                    <!-- Os dias do mês serão inseridos aqui via JavaScript -->
+                </tbody>
+            </table>
+        </div>
 
-			     <div id="event-modal" class="modal">
-	        <div class="modal-content">
-	            <span class="close">&times;</span>
-	            <h3 id="event-date"></h3>
-	            <input type="text" id="event-input" placeholder="Adicionar evento...">
-	            <button id="add-event-btn">Adicionar Evento</button>
-	            <ul id="event-list"></ul>
-	        </div>
+        <div id="event-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h3 id="event-date"></h3>
+                <input type="text" id="event-input" placeholder="Adicionar evento...">
+                <button id="add-event-btn">Adicionar Evento</button>
+                <ul id="event-list"></ul>
+            </div>
+        </div>
     </div>
-		</div>
-	</main>
+</main>
 
-	<script >
-		document.addEventListener('DOMContentLoaded', function() {
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
     const calendarBody = document.getElementById('calendar-body');
     const monthYearText = document.getElementById('month-year');
     const eventModal = document.getElementById('event-modal');
@@ -184,7 +180,7 @@
 });
 
 
-	 document.addEventListener('DOMContentLoaded', function() {
+     document.addEventListener('DOMContentLoaded', function() {
     const addItemButton = document.getElementById('add-item-btn');
     const newItemInput = document.getElementById('new-item-input');
     const customList = document.getElementById('custom-list');
@@ -267,6 +263,7 @@ function loadTasks() {
         ul.appendChild(li);
     });
 }
-	</script>
+</script>
+
 </body>
 </html>
